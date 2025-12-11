@@ -23,15 +23,15 @@ RSpec.describe "ITVX Login" do
   end
 
   it "logs into ITVX" do
-    email = "your_email@example.com"
-    password = "your_password"
+    email = "geeta.punna@itv.com"
+    password = "111111"
 
     @driver.navigate.to "https://www.itv.com/"
 
     # Accept cookies (if shown)
     begin
       accept_button = @wait.until do
-        @driver.find_element(:css, "button#onetrust-accept-btn-handler")
+        @driver.find_element(:id, "cassie_accept_all_pre_banner")
       end
       accept_button.click
     rescue Selenium::WebDriver::Error::TimeoutError
@@ -40,7 +40,7 @@ RSpec.describe "ITVX Login" do
 
     # Click Sign In
     sign_in_button = @wait.until do
-      @driver.find_element(:css, "a[data-testid='header-sign-in-link']")
+      @driver.find_element(:css, "a[data-testid='navigation-user-link']")
     end
     sign_in_button.click
 
@@ -49,20 +49,18 @@ RSpec.describe "ITVX Login" do
       @driver.find_element(:id, "email")
     end
     email_field.send_keys(email)
-
-    @driver.find_element(:css, "button[type='submit']").click
+    @driver.find_element(:css, "button[data-testid='signInButton']").click
 
     # Enter password
     password_field = @wait.until do
       @driver.find_element(:id, "password")
     end
     password_field.send_keys(password)
-
-    @driver.find_element(:css, "button[type='submit']").click
+    @driver.find_element(:css, "[data-testid='signInButton']").click
 
     # Validate login — simplest way is to wait for the "My ITV" icon
     @wait.until do
-      @driver.find_element(:css, "[data-testid='header-account-link']")
+      @driver.find_element(:css, "div[data-testid='profileAvatarWrapper']")
     end
   end
 end
